@@ -1,0 +1,14 @@
+{
+  "baseUrl": "src",
+  "out": "build/main.min.js",
+  "optimize": "uglify2",
+
+  "include": ["standalone-redirect"],
+  "exclude": [],
+  "stubModules": [],
+  "wrap": true,
+
+  "paths": {
+    "modules":    "./modules"
+  }
+}
