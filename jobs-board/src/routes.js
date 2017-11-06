@@ -30,8 +30,32 @@ const routes = [
     },
 
     {
+        name: 'linkedin-bug',
+        path: '/%2Fjob%2F:id',
+
+        redirect:  incomingRoute => {
+
+            const { hash, params, query } = incomingRoute
+
+            let destinationRoute = {
+                name: '404'
+            }
+
+            if (params.id) {
+                destinationRoute.name = 'job'
+
+                destinationRoute.params = {
+                    id: params.id
+                }
+            }
+
+            return destinationRoute
+        }
+    },
+
+    {
         path: '/*',
-        redirect: {
+        redirect:  {
             name: '404'
         }
     }
