@@ -4,9 +4,10 @@
   "description": "",
   "main": "ga-and-gtm-extension.js",
   "scripts": {
-    "dev-build": "./node_modules/requirejs/bin/r.js -o require-dev-settings.json  && ./node_modules/webpack/bin/webpack.js --devtool=inline-source-map --optimize-max-chunks=1 --output-source-map-filename=./build/linker-param-proxy.js.map ./src/linker-param-proxy.js ./build/linker-param-proxy.js",
-    "watch": "./node_modules/webpack/bin/webpack.js --watch --devtool=inline-source-map --optimize-max-chunks=1 --output-source-map-filename=./build/linker-param-proxy.js.map ./src/linker-param-proxy.js ./build/linker-param-proxy.js",
-    "build": "./node_modules/requirejs/bin/r.js -o require-settings.json  && ./node_modules/webpack/bin/webpack.js --optimize-minimize --optimize-max-chunks=1 ./src/linker-param-proxy.js ./build/linker-param-proxy.min.js",
+    "dev-build": "./node_modules/requirejs/bin/r.js -o require-dev-settings.json && ./node_modules/webpack/bin/webpack.js --devtool=inline-source-map --optimize-max-chunks=1  ./src/linker-param-proxy.js ./build/linker-param-proxy.js && ./node_modules/webpack/bin/webpack.js --devtool=inline-source-map --optimize-max-chunks=1 ./src/analytics-event-delegate.js ./build/analytics-event-delegate.js",
+    "watch-linker-param": "./node_modules/webpack/bin/webpack.js --watch --devtool=inline-source-map --optimize-max-chunks=1 --output-source-map-filename=./build/linker-param-proxy.js.map ./src/linker-param-proxy.js ./build/linker-param-proxy.js",
+    "watch-event-delegate": "./node_modules/webpack/bin/webpack.js --watch --devtool=inline-source-map --optimize-max-chunks=1 ./src/analytics-event-delegate.js ./build/analytics-event-delegate.js",
+    "build": "./node_modules/requirejs/bin/r.js -o require-settings.json && ./node_modules/webpack/bin/webpack.js --optimize-minimize --optimize-max-chunks=1 ./src/linker-param-proxy.js ./build/linker-param-proxy.min.js && ./node_modules/webpack/bin/webpack.js --optimize-minimize --optimize-max-chunks=1 ./src/analytics-event-delegate.js ./build/analytics-event-delegate.min.js",
     "clean": "rm ./build/*.js"
   },
   "author": "",
