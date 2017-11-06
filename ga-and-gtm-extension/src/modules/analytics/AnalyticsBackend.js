@@ -12,6 +12,12 @@ define(function () {
         this.config = config;
         this.clientId = config.clientId || null;
         this.initalized = false;
+
+        if (typeof config.addTag !== "undefined") {
+            this.shouldAddTag = config.addTag;
+        } else {
+            this.shouldAddTag = true;
+        }
     };
 
     Abstract.prototype = {
@@ -52,8 +58,9 @@ define(function () {
          * @abstract
          * @param {String} eventName
          * @param {String} eventLabel
+         * @param {String=} eventCategory
          */
-        sendEvent: function (eventName, eventLabel) {
+        sendEvent: function (eventName, eventLabel, eventCategory) {
 
         },
 
@@ -70,6 +77,29 @@ define(function () {
             }
 
             return url;
+        },
+
+        /**
+         * Optionally apply linker param decoration, and send user to URL
+         *
+         * @param {String} url
+         * @param {Boolean} openLinksInNewTab
+         * @param {Boolean=false} doNotDecorate
+         */
+        goToUrl: function (url, openLinksInNewTab, doNotDecorate) {
+
+            doNotDecorate = doNotDecorate || false;
+
+            if (doNotDecorate !== false) {
+                url = this.decorateUrl(url);
+            }
+
+            if (openLinksInNewTab === false) {
+                window.top.location.href = url;
+            } else {
+                window.open(url, '_blank');
+            }
+
         },
 
         /**
