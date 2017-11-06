@@ -1,10 +1,11 @@
 define([
-    'modules/analytics/GoogleAnalytics',
-    'modules/analytics/GoogleTagManager',
-    'modules/constants',
-], function (GoogleAnalytics, GoogleTagManager, constants) {
+    './analytics/GoogleAnalytics',
+    './analytics/GoogleTagManager',
+    './analytics/ParentPageMessenger',
+    './constants',
+], function (GoogleAnalytics, GoogleTagManager, ParentPageMessenger, constants) {
 
-    // time to wait before auto initing tracker
+    // time to wait before auto initializing tracker
     var threeSeconds = (3 * 1000);
 
     /**
@@ -23,26 +24,45 @@ define([
          */
         factory: function (config) {
 
-            var backend;
+            var backend, initializeImmediately = false;
 
             if (config.backEnd && config.backEnd === constants.MODE_GOOGLE_TAG_MANGER) {
+
                 backend = new GoogleTagManager(config);
+
+            } else if (config.backEnd && config.backEnd === constants.MODE_PARENT_PAGE_DELEGATE) {
+
+                backend = new ParentPageMessenger(config);
+
+                initializeImmediately = true;
+
             } else {
+
                 backend = new GoogleAnalytics(config);
+
             }
 
-            setTimeout(function() {
 
-                if (backend.clientId === null) {
+            if (initializeImmediately) {
 
-                    if (config.logger) {
-                        config.logger.log("Timed out waiting for Client ID from parent page via postMessage");
+                backend.init();
+
+            } else {
+
+                setTimeout(function() {
+
+                    if (backend.clientId === null) {
+
+                        if (config.logger) {
+                            config.logger.log("Timed out waiting for Client ID from parent page via postMessage");
+                        }
+
+                        backend.init();
                     }
 
-                    backend.init();
-                }
+                }, threeSeconds);
 
-            }, threeSeconds);
+            }
 
             return backend;
         }

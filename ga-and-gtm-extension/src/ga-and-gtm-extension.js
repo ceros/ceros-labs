@@ -63,7 +63,7 @@
 
         });
 
-        messenger.send(constants.TYPE_REQUEST_CLIENT_ID);
+        messenger.send(constants.TYPE_EXTENSION_INITIALIZED);
 
         CerosSDK.findExperience()
           .fail(function (error) {
@@ -103,14 +103,7 @@
                   var url = component.getPayload();
 
                   if (url) {
-                      var destinationUrl = analytics.decorateUrl(url);
-
-                      if (openLinksInNewTab === constants.NO) {
-                          window.top.location.href = destinationUrl;
-                      } else {
-                          window.open(destinationUrl, '_blank');
-                      }
-
+                      analytics.goToUrl(url, (openLinksInNewTab === constants.YES));
                   }
 
               });

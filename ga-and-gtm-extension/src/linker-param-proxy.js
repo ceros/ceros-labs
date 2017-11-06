@@ -46,7 +46,7 @@
             }
         };
 
-        incomingMessenger.receive(constants.TYPE_REQUEST_CLIENT_ID, function (message, outgoingMessenger) {
+        incomingMessenger.receive(constants.TYPE_EXTENSION_INITIALIZED, function (message, outgoingMessenger) {
 
             if (typeof clientIdPayload === 'undefined') {
                 pendingRequestForClientId.push(outgoingMessenger);
