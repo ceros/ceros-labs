@@ -81,7 +81,7 @@ define(function() {
         anchor.href = uriString;
 
         this.protocol = anchor.protocol;
-        this.host = anchor.host;
+        this.host = anchor.host.replace(":80","/");
         this.pathname = anchor.pathname;
         this.fragment = anchor.hash;
         this.queryParams = parseQueryParams(anchor.search);
