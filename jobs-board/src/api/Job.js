@@ -12,7 +12,7 @@ const JOB_BOARD_URL = "https://api.greenhouse.io/v1/boards/ceros/jobs/";
 const getJobListings = function() {
     return new Promise(function (resolve, reject) {
 
-        jsonp(JOB_BOARD_URL, function (error, data) {
+        jsonp(JOB_BOARD_URL + '?content=true', function (error, data) {
 
             if (error) {
                 return reject(error);
