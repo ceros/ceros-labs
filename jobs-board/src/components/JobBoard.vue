@@ -16,9 +16,9 @@
 
                     <h2 class="heading-section">Current Openings</h2>
 
-                    <div class="row" v-for="row in rows">
-                        <div class="col-md-6" v-for="job in row">
-
+                    <div class="row" v-for="(departmentJobs, departmentName) in jobs">
+                    	<h3 class="department-heading">{{ departmentName }}</h3>
+                        <div class="col-md-6" v-for="job in departmentJobs">
                             <div class="card card-clickable js-card" v-on:click="goToJob(job)">
                                 <div class="row">
                                     <div class="col-xs-8 col-md-9">
@@ -36,7 +36,6 @@
                                 </div>
                             </div>
 
-
                         </div>
                     </div>
                 </div>
@@ -46,9 +45,22 @@
 </template>
 
 <style>
+
     .company-header {
         background-image: url("../assets/banner-bg.jpg");
     }
+
+    .department-heading {
+        font-size: 18px;
+        padding-left: 15px;
+    }
+
+    @media only screen and (min-width: 480px) {
+        .department-heading {
+            font-size: 20px;
+        }
+    }
+
 </style>
 
 <script>
@@ -63,17 +75,16 @@
             }
         },
 
-        computed: {
-            rows() {
-                return _.chunk(this.jobs, 2);
-            }
-        },
-
         methods: {
 
             refreshData() {
                 JobAPI.getJobListings().then(function(jobData){
-                    this.jobs = jobData;
+
+                    this.jobs = _.chain(jobData)
+                                    .sortBy(['department_name', 'title'])
+                                    .groupBy('department_name')
+                                    .value();
+
                 }.bind(this));
             },
 
