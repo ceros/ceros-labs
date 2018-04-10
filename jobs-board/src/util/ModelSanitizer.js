@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import he from 'he';
 
-const JOB_LISTING_FIELDS = ['id', 'absolute_url', 'location_name', 'title', 'badge_one', 'badge_two'];
+const JOB_LISTING_FIELDS = ['id', 'absolute_url', 'location_name', 'department_name', 'title', 'badge_one', 'badge_two'];
 const JOB_FIELDS = _.concat(JOB_LISTING_FIELDS, ['content']);
 
 /**
@@ -19,6 +19,25 @@ const flattenLocation = function (job) {
     }
 
     job.location_name = locationName;
+
+    return job;
+};
+
+/**
+ * Turn job.departments array of objects into the first department name
+ *
+ * @param {Object} job
+ * @return {Object}
+ */
+const flattenDepartments = function (job) {
+
+    let department = null;
+
+    if (job.departments && job.departments.length > 0) {
+        department = job.departments[0].name || null;
+    }
+
+    job.department_name = department.trim();
 
     return job;
 };
@@ -84,6 +103,7 @@ export default {
         return _.map(listings.jobs || [], function (job) {
 
                 flattenLocation(job);
+                flattenDepartments(job);
 
                 let plainFields = _.pick(job, JOB_LISTING_FIELDS);
                 let badgeFields = resolveBadgeFields(job);
