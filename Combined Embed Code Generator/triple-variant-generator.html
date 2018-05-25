@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Magic Embed Tag Triple Variant Generator</title>
+
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./bower_components/google-code-prettify/bin/prettify.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <style>
+        .form-group {
+            margin: 10px;
+            padding-bottom: 10px;
+        }
+
+        #generate {
+            margin-bottom: 10px;
+        }
+
+        #cb-embed-panel {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-inline pull-right">
+
+                <div class="form-group">
+                    <label for="mediumBreakPoint">Medium Break Point (px)</label>
+                    <input type="text" class="form-control" id="mediumBreakPoint" value="900">
+                </div>
+
+                <div class="form-group">
+                    <label for="smallBreakPoint">Small Break Point (px)</label>
+                    <input type="text" class="form-control" id="smallBreakPoint" value="640">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Desktop Experience Embed Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <textarea id="lg-embed" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Tablet Experience Embed Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <textarea id="md-embed" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Mobile Experience Embed Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <textarea id="sm-embed" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-inline pull-right">
+                <button id="generate" type="button" class="btn btn-primary">Generate Embed Tag</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="cb-embed-panel" class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Combined Embed Tag and Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <pre id="cb-embed" class="prettyprint"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./bower_components/google-code-prettify/bin/prettify.min.js"></script>
+<script type="text/javascript" src="./bower_components/mustache.js/mustache.min.js"></script>
+<script type="text/javascript" src="./triple-script.js"></script>
+</body>
+</html>

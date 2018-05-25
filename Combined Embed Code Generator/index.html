@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Magic Embed Tag Generator</title>
+
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./bower_components/google-code-prettify/bin/prettify.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <style>
+        .form-group {
+            margin: 10px;
+            padding-bottom: 10px;
+        }
+
+        #generate {
+            margin-bottom: 10px;
+        }
+
+        #cb-embed-panel {
+            display: none;
+        }
+    </style>
+
+    <script>
+      var url_string = window.location.href;
+
+
+      remove_desktop_height_override = false;
+      remove_mobile_height_override = false;
+      url_string.indexOf("removeDesktopHeightOverride") != -1 ? remove_desktop_height_override = true : remove_desktop_height_override = false;
+      url_string.indexOf("removeMobileHeightOverride") != -1 ? remove_mobile_height_override = true : remove_mobile_height_override = false;
+
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-inline pull-right">
+                <div class="form-group">
+                    <label for="touchDevices">
+                        Detect Touch Devices
+                    </label>
+                    <input id="touchDevices" type="checkbox">
+                </div>
+                <div class="form-group">
+                    <label for="breakPoint">Break Point (px)</label>
+                    <input type="text" class="form-control" id="breakPoint" value="640">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Desktop Experience Embed Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <textarea id="lg-embed" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Mobile Experience Embed Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <textarea id="sm-embed" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-inline pull-right">
+                <button id="generate" type="button" class="btn btn-primary">Generate Embed Tag</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="cb-embed-panel" class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <span class="">Combined Embed Tag and Code</span>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <pre id="cb-embed" class="prettyprint"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">
+      <input type="checkbox" id="desktop-height-override" class="desktop-height-override" value="desktop-override" >
+      <label for="desktop-override">Remove Desktop Height Override</label>
+    </div>
+    <div style="display: none;">
+      <input type="checkbox" id="mobile-height-override" class="mobile-height-override" value="mobile-override" >
+      <label for="mobile-override">Remove Mobile Height Override</label>
+    </div>
+</div>
+<script>
+if (remove_desktop_height_override)
+{
+  document.getElementById("desktop-height-override").checked = true;
+}
+if (remove_mobile_height_override)
+{
+  document.getElementById("mobile-height-override").checked = true;
+}
+</script>
+<script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./bower_components/google-code-prettify/bin/prettify.min.js"></script>
+<script type="text/javascript" src="./bower_components/mustache.js/mustache.min.js"></script>
+<script type="text/javascript" src="./script.js"></script>
+</body>
+</html>
