@@ -2,11 +2,11 @@ define(function () {
     /**
      * Class to wrap console.log for safe usage and easy disabling
      *
-     * @param {Boolean=true} enabled
+     * @param {Boolean} enabled
      * @constructor
      */
     var Logger = function (enabled) {
-        this.enabled = enabled || true;
+        this.enabled = enabled;
     };
 
     Logger.prototype = {

@@ -1,16 +1,37 @@
 (function (root) {
     'use strict';
 
-    var scriptTag = document.getElementById("ceros-event-delegate");
+    var scriptTag = document.getElementById("ceros-event-delegate"),
+        scriptSrc = scriptTag.getAttribute("src"),
+        scriptDirectory = "./";
+
+    if (scriptSrc) {
+        var path = scriptSrc.split('?')[0];
+
+        scriptDirectory = path.split('/').slice(0, -1).join('/') + '/';
+    }
+
+
+    require.config({
+        paths: {
+            modules: scriptDirectory + "modules"
+        }
+    });
 
     require([
-        './modules/constants',
-        './modules/CrossFrameMessenger',
-        './modules/Analytics',
-    ], function (constants, CrossFrameMessenger, Analytics) {
 
-        var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS;
-        var incomingMessenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX);
+        './modules/constants.js',
+        './modules/CrossFrameMessenger.js',
+        './modules/Analytics.js',
+        './modules/Logger.js'
+
+    ], function (constants, CrossFrameMessenger, Analytics, Logger) {
+
+        var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS,
+            debug = scriptTag.getAttribute("data-debug") || constants.NO;
+
+        var incomingMessenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX),
+            consoleHelper = new Logger(debug === constants.YES);
 
         var analytics = Analytics.factory({
             addTag: false,
@@ -23,19 +44,9 @@
               eventName = message.eventName || '',
               eventLabel = message.eventLabel || '';
 
+            consoleHelper.log('Delegated Event: ', [eventName, eventLabel, eventCategory]);
+
             analytics.sendEvent(eventName, eventLabel, eventCategory);
-        });
-
-        incomingMessenger.receive(constants.TYPE_GO_TO_URL, function (message) {
-
-            if (message.url) {
-
-                var url = message.url,
-                  openInNewTab = message.openInNewTab || false;
-
-                analytics.goToUrl(url, openInNewTab);
-            }
-
         });
 
     });

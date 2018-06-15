@@ -2,11 +2,8 @@ define([
     './analytics/GoogleAnalytics',
     './analytics/GoogleTagManager',
     './analytics/ParentPageMessenger',
-    './constants',
+    './constants'
 ], function (GoogleAnalytics, GoogleTagManager, ParentPageMessenger, constants) {
-
-    // time to wait before auto initializing tracker
-    var threeSeconds = (3 * 1000);
 
     /**
      * Static class for initializing Analytics back ends
@@ -24,17 +21,16 @@ define([
          */
         factory: function (config) {
 
-            var backend, initializeImmediately = false;
+            var backend;
 
-            if (config.backEnd && config.backEnd === constants.MODE_GOOGLE_TAG_MANGER) {
+            // if (config.backEnd && config.backEnd === constants.MODE_GOOGLE_TAG_MANAGER) {
 
-                backend = new GoogleTagManager(config);
+            //     backend = new GoogleTagManager(config);
 
-            } else if (config.backEnd && config.backEnd === constants.MODE_PARENT_PAGE_DELEGATE) {
+            // } else 
+            if (config.backEnd && config.backEnd === constants.MODE_PARENT_PAGE_DELEGATE) {
 
                 backend = new ParentPageMessenger(config);
-
-                initializeImmediately = true;
 
             } else {
 
@@ -43,26 +39,8 @@ define([
             }
 
 
-            if (initializeImmediately) {
 
-                backend.init();
-
-            } else {
-
-                setTimeout(function() {
-
-                    if (backend.clientId === null) {
-
-                        if (config.logger) {
-                            config.logger.log("Timed out waiting for Client ID from parent page via postMessage");
-                        }
-
-                        backend.init();
-                    }
-
-                }, threeSeconds);
-
-            }
+            backend.init();
 
             return backend;
         }

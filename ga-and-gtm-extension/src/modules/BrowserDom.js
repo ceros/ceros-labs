@@ -8,7 +8,7 @@ define(function () {
      */
     var BrowserDom = function (experience) {
         this.experience = experience;
-        this.allSmartGroups = null;
+        this.allSyncedObjects = null;
     };
 
     BrowserDom.prototype = {
@@ -26,7 +26,7 @@ define(function () {
             // If the element wasn't found on the page, it should be in a smart group
             if (element === null) {
 
-                return this.getElementFromSmartGroupByComponentId(componentId);
+                return this.getElementFromSyncedObjectByComponentId(componentId);
 
             }
 
@@ -49,19 +49,19 @@ define(function () {
          * @param {String} componentId
          * @return {Element|null}
          */
-        getElementFromSmartGroupByComponentId: function (componentId) {
+        getElementFromSyncedObjectByComponentId: function (componentId) {
 
             var foundDomElement = null;
 
-            if (this.allSmartGroups === null) {
-                this.allSmartGroups = experience.findAllSmartgroups();
+            if (this.allSyncedObjects === null) {
+                this.allSyncedObjects = this.experience.findAllSyncedObjects();
             }
 
-            this.allSmartGroups.smartgroups.forEach(function(smartGroup){
+            this.allSyncedObjects.syncedObjects.forEach(function(syncedObject){
 
                 if (foundDomElement === null) {
 
-                    var domElementId = smartGroup.id + "|" + componentId;
+                    var domElementId = syncedObject.id + "|" + componentId;
 
                     var domElement = document.getElementById(domElementId);
 

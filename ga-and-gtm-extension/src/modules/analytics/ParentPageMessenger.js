@@ -1,7 +1,7 @@
 define([
     './AnalyticsBackend',
     '../CrossFrameMessenger',
-    '../constants',
+    '../constants'
 ], function (AnalyticsBackend, CrossFrameMessenger, constants) {
     /**
      * Analytics Backend to delegate event processing to parent page.
@@ -15,7 +15,16 @@ define([
 
         performInit:  function () {
 
-            this.messenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX, window.parent);
+            this.messenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX, window.parent, false);
+        },
+
+        /**
+         * Tell parent page to report page refrence as a fragment of its URL. 
+         *
+         * @param {String} pageReference
+         */
+        decoratePageReference: function(pageReference) {
+            return '#' + pageReference;
         },
 
         sendEvent: function (eventName, eventLabel, eventCategory) {
@@ -30,17 +39,6 @@ define([
             };
 
             this.messenger.send(constants.TYPE_DELEGATED_EVENT, event);
-        },
-
-
-        goToUrl: function (url, openInNewTab, doNotDecorate) {
-
-            var message = {
-                url: url,
-                openInNewTab: openInNewTab
-            };
-
-            this.messenger.send(constants.TYPE_GO_TO_URL, message);
         }
 
     });

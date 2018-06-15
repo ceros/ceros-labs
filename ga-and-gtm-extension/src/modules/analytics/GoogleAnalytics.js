@@ -1,5 +1,5 @@
 define([
-  './AnalyticsBackend'
+    './AnalyticsBackend'
 ], function (AnalyticsBackend) {
 
     /**

@@ -65,41 +65,12 @@ define(function () {
         },
 
         /**
-         * Add Linker ID to given URL
+         * Template method to allow subclasses to change the way pages are refrenced
          *
-         * @param {String} url
-         * @return {String}
+         * @param {String} pageReference
          */
-        decorateUrl: function (url) {
-
-            if (this.clientId !== null) {
-                url = this.setParamInUrl(url, 'linkerParam', this.clientId);
-            }
-
-            return url;
-        },
-
-        /**
-         * Optionally apply linker param decoration, and send user to URL
-         *
-         * @param {String} url
-         * @param {Boolean} openLinksInNewTab
-         * @param {Boolean=false} doNotDecorate
-         */
-        goToUrl: function (url, openLinksInNewTab, doNotDecorate) {
-
-            doNotDecorate = doNotDecorate || false;
-
-            if (doNotDecorate !== false) {
-                url = this.decorateUrl(url);
-            }
-
-            if (openLinksInNewTab === false) {
-                window.top.location.href = url;
-            } else {
-                window.open(url, '_blank');
-            }
-
+        decoratePageReference: function(pageReference) {
+            return pageReference;
         },
 
         /**
@@ -126,61 +97,9 @@ define(function () {
          * @param {String} pageReference
          */
         recordPageView: function (pageReference) {
-            this.sendEvent('ceros_page_view', pageReference);
-        },
+            var decoreatedPageRefrence = this.decoratePageReference(pageReference);
 
-        /**
-         * Safely add a URL Param to a given URL
-         *
-         * @param {string} url
-         * @param {string} key
-         * @param {string} value
-         * @return {string}
-         */
-        setParamInUrl: function (url, key, value) {
-
-            key = encodeURI(key);
-            value = encodeURI(value);
-
-            // Split the URL into its path etc and query string
-            var urlParts = url.split('?'),
-              params = [];
-
-            // If there was a query string
-            if (urlParts.length > 1) {
-                // turn query string array of params ['key=value', ...]
-                params = urlParts[1].split('&');
-            }
-
-            // Flag for if the URL already has this param
-            var foundKey = false;
-
-            // For every existing param
-            for (var i = 0; i < params.length; i++) {
-
-                var paramKeyAndValue = params[i].split('=');
-
-                // If this param is the same as the one we're setting
-                if (paramKeyAndValue[0] === key) {
-
-                    foundKey = true;
-
-                    // Update its value and put it back in the array
-                    paramKeyAndValue[1] = value;
-                    params[i] = paramKeyAndValue.join('=');
-
-                    break;
-                }
-
-            }
-
-            // If we didn't find a param with the same name, add ours as a new one
-            if (foundKey === false) {
-                params.push(key + '=' + value);
-            }
-
-            // Build the URL back up and return it
-            return urlParts[0] + '?' + params.join('&');
+            this.sendEvent('ceros_page_view', decoreatedPageRefrence);
         }
 
     };

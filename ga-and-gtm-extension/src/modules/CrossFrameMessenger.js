@@ -5,61 +5,69 @@ define(function () {
      *
      * @param {String} nameSpaceSuffix
      * @param {WindowProxy=} targetFrame
+     * @param {Boolean=false} listenForIncoming
      *
      * @class CrossFrameMessenger
      */
-    var CrossFrameMessenger = function (nameSpaceSuffix, targetFrame) {
+    var CrossFrameMessenger = function (nameSpaceSuffix, targetFrame, listenForIncoming) {
 
         this.target = targetFrame || null;
         this.nameSpace =  'com.ceros-labs.' + nameSpaceSuffix;
 
         this.callbacks = {};
 
-        window.addEventListener("message", function(message){
+        if (typeof listenForIncoming === 'undefined' || listenForIncoming !== false) {
+            window.addEventListener('message', function(message){
 
-            try {
-                // Check event is well formed
-                if (typeof message.data === 'undefined' || typeof message.source === 'undefined') {
-                    console.error('Malformed message: missing data.');
+                try {
+                    // Check event is well formed
+                    if (typeof message.data === 'undefined' || typeof message.source === 'undefined') {
+                        console.error('Malformed message: missing data.');
 
-                    return;
-                }
+                        return;
+                    }
 
-                var parsed = JSON.parse(message.data);
+                    var parsed = null;
 
-                // If message parsed successfully and it has a name space which matches ours
-                if (parsed && parsed.name === this.nameSpace) {
+                    try {
+                        parsed = JSON.parse(message.data);    
+                    } catch (e) {
+                        // console.log(e);
+                    }
+                    
 
-                    var returnObject = new CrossFrameMessenger(nameSpaceSuffix, message.source);
+                    // If message parsed successfully and it has a name space which matches ours
+                    if (parsed !== null && parsed.name === this.nameSpace) {
 
-                    // if the message has payload
-                    if (parsed.type && parsed.payload) {
+                        // if the message has payload
+                        if (parsed.type && parsed.payload) {
 
-                        // if we have a callback for this type
-                        if (this.callbacks[parsed.type]) {
+                            // if we have a callback for this type
+                            if (this.callbacks[parsed.type]) {
 
-                            // Set results to the contents of the payload
-                            var results = parsed.payload;
+                                // Set results to the contents of the payload
+                                var results = parsed.payload;
 
-                            // Loop through the callbacks for this type
-                            this.callbacks[parsed.type].forEach(function (callback) {
+                                // Loop through the callbacks for this type
+                                this.callbacks[parsed.type].forEach(function (callback) {
 
-                                // call callback with results and source's CrossFrameMessenger
-                                callback(results, returnObject);
-                            });
+                                    // call callback with results
+                                    callback(results);
+                                });
+
+                            }
+
+                        } else {
+
+                            throw new Error('Malformed message');
 
                         }
-
-                    } else {
-
-                        throw new Error('Malformed message');
-
                     }
+                } catch (e) {
+                    console.error(e);
                 }
-            } catch (e) {
-                console.error(e);
-            }
-        }.bind(this));
+            }.bind(this));
+        }
     };
 
 
