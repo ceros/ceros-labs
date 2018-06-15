@@ -1,0 +1,15 @@
+{
+  "baseUrl": "./src/",
+  "out": "./build/ga-and-gtm-extension.min.js",
+  "optimize": "uglify2",
+
+  "include": ["ga-and-gtm-extension.js"],
+  "exclude": [],
+  "stubModules": [],
+  "wrap": true,
+
+  "paths": {
+    "modules": "modules",
+    "CerosSDK": "//sdk.ceros.com/standalone-player-sdk-v4.min"
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.js"></script>
+</head>
+<body>
+
+    <h1>Mobile Version</h1>
+
+    <form action="" method="get">
+        <input type="text" name="form-pram" value="hello" />
+        <button type="submit" name="submit" value="Submit">Submit</button>
+    </form>
+
+    <script
+
+        id="ceros-variant-redirect"
+        src="../build/main.min.js"
+
+        data-redirect-from="mobile"
+        data-redirect-to="http://localhost:8080/etc/desktop.html"
+        data-break-on="touch"
+
+        data-preserve-page="no"
+        data-preserve-fragment="yes"
+        data-preserve-query="yes"
+        data-force-https="no"
+        data-redirect-preview="yes"
+        data-avoid-re-redirects="yes"
+        data-should-log="yes"
+
+    ></script>
+
+
+    <!--
+     <script
+
+         id="ceros-variant-redirect"
+         src="../src/standalone-redirect.js"
+
+         data-redirect-from="desktop|mobile"
+         data-redirect-to="<URL>"
+         data-break-on="touch|(view-port|user-agent)"
+
+         data-min-width="<int>"
+
+         data-preserve-page="<bool>"
+         data-preserve-fragment="<bool>"
+         data-preserve-query="<bool>"
+         data-redirect-preview="<bool>"
+         data-avoid-re-redirects="<bool>"
+         data-should-log="<bool>"
+
+     ></script>
+    -->
+</body>
+</html>
