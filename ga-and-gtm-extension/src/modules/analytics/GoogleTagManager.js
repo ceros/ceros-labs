@@ -14,20 +14,24 @@ define([
 
         sendEvent: function (eventAction, eventLabel, eventCategory) {
 
-            var dataObject = {
-                'event': eventAction,
-                'category': eventCategory,
-                'label': eventLabel
-            };
+            var dataObject = {};
 
-            var dataLayer = this.config.dataLayerGlobal;
+            dataObject['event'] = 'ceros-event';            
+            dataObject[this.config.eventCategoryParameter] = eventCategory;
+            dataObject[this.config.eventActionParameter] = eventAction;
+            dataObject[this.config.eventLabelParameter] = eventLabel;
 
-            if (typeof window[dataLayer] !== 'undefined'){
+            console.log('dataObject for GTM: ', dataObject);
 
-                window[dataLayer].push(dataObject);
+            var dataLayerGlobal = this.config.dataLayerGlobal;
+
+
+            if (typeof window[dataLayerGlobal] !== 'undefined'){
+
+                window[dataLayerGlobal].push(dataObject);
 
             } else {
-                console.log("dataLayer is undefined");
+                console.error("dataLayer (as '" + dataLayerGlobal + "') is undefined");
             }
         }
 

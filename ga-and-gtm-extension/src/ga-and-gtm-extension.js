@@ -23,7 +23,6 @@
 
     require([
         'CerosSDK',
-
         'modules/constants',
         'modules/Analytics',
         'modules/BrowserDom',
@@ -34,6 +33,18 @@
         var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS,
 
             trackingId = scriptTag.getAttribute("data-tracking-id") || null,
+
+
+            /*
+
+                cerosCategory: "ceros event", // Populates ec:
+        cerosAction: "ceros hover",  // Populates ea:
+    cerosLabel: "roll over in group" // Populates el:
+
+    */
+            eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
+            eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
+            eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
 
             eventCategory = scriptTag.getAttribute("data-event-category") || 'ceros event',
             viewEventAction = scriptTag.getAttribute("data-view-event-action") || 'ceros view',
@@ -60,6 +71,10 @@
             trackerGlobal: trackerGlobal,
             dataLayerGlobal: dataLayerGlobal,
 
+            eventCategoryParameter: eventCategoryParameter,
+            eventActionParameter: eventActionParameter,
+            eventLabelParameter: eventLabelParameter,
+            
             eventCategory: eventCategory,
             viewEventAction: viewEventAction,
             clickEventAction: clickEventAction,

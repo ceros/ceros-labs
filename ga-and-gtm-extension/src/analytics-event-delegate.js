@@ -7,6 +7,10 @@
         trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
         dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
 
+        eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
+        eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
+        eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
+
         scriptDirectory = "./";
 
     if (scriptSrc) {
@@ -39,6 +43,10 @@
 
         var analytics = Analytics.factory({
             backEnd: backEndMode,
+
+            eventCategoryParameter: eventCategoryParameter,
+            eventActionParameter: eventActionParameter,
+            eventLabelParameter: eventLabelParameter,
 
             trackerGlobal: trackerGlobal,
             dataLayerGlobal: dataLayerGlobal
