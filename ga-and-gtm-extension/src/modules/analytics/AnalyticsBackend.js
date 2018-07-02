@@ -12,12 +12,6 @@ define(function () {
         this.config = config;
         this.clientId = config.clientId || null;
         this.initalized = false;
-
-        if (typeof config.addTag !== "undefined") {
-            this.shouldAddTag = config.addTag;
-        } else {
-            this.shouldAddTag = true;
-        }
     };
 
     Abstract.prototype = {
@@ -29,19 +23,16 @@ define(function () {
         init: function () {
 
             if (this.initalized === false) {
-                this.performInit();
+
+                if (typeof this.performInit === 'function') {
+                    this.performInit();    
+                }
+                
                 this.initalized = true;
             }
 
         },
 
-        /**
-         * Hook for subclasses to override
-         *
-         */
-        performInit: function () {
-
-        },
 
         /**
          * Set the linker param to use
@@ -56,11 +47,11 @@ define(function () {
          *  Send event to back end
          *
          * @abstract
-         * @param {String} eventName
+         * @param {String} eventAction
          * @param {String} eventLabel
          * @param {String=} eventCategory
          */
-        sendEvent: function (eventName, eventLabel, eventCategory) {
+        sendEvent: function (eventAction, eventLabel, eventCategory) {
 
         },
 
@@ -79,7 +70,11 @@ define(function () {
          * @param {String} hotSpotPayLoad
          */
         recordClick: function (hotSpotPayLoad) {
-            this.sendEvent('ceros_click', hotSpotPayLoad);
+            this.sendEvent(
+                this.config.clickEventAction, 
+                hotSpotPayLoad,
+                this.config.eventCategory
+            );
         },
 
         /**
@@ -88,7 +83,11 @@ define(function () {
          * @param {String} hotSpotPayLoad
          */
         recordHover: function (hotSpotPayLoad) {
-            this.sendEvent('ceros_hover', hotSpotPayLoad);
+            this.sendEvent(
+                this.config.hoverEventAction, 
+                hotSpotPayLoad,
+                this.config.eventCategory
+            );
         },
 
         /**
@@ -97,9 +96,16 @@ define(function () {
          * @param {String} pageReference
          */
         recordPageView: function (pageReference) {
-            var decoreatedPageRefrence = this.decoratePageReference(pageReference);
 
-            this.sendEvent('ceros_page_view', decoreatedPageRefrence);
+            if (typeof this.decoratePageReference === 'function') {
+                pageReference = this.decoratePageReference(pageReference); 
+            }
+
+            this.sendEvent(
+                this.config.viewEventAction, 
+                pageReference,
+                this.config.eventCategory
+            );
         }
 
     };

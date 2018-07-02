@@ -17,6 +17,7 @@
     "webpack": "^3.11.0"
   },
   "dependencies": {
+    "almond": "^0.3.3",
     "babel-polyfill": "^6.26.0",
     "es6-promise": "^4.2.4",
     "exports-loader": "^0.7.0",

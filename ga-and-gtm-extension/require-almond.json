@@ -1,9 +1,9 @@
 {
   "baseUrl": "./src/",
-  "out": "./build/ga-and-gtm-extension.min.js",
+  "out": "./build/analytics-event-delegate.min.js",
   "optimize": "uglify2",
 
-  "include": ["ga-and-gtm-extension.js"],
+  "include": ["../node_modules/almond/almond", "analytics-event-delegate.js"],
   "exclude": [],
   "stubModules": [],
   "wrap": true,

@@ -32,12 +32,22 @@
     ], function (CerosSDK, constants, Analytics, BrowserDom, Logger) {
 
         var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS,
+
             trackingId = scriptTag.getAttribute("data-tracking-id") || null,
-            eventCategory = scriptTag.getAttribute("data-event-category") || 'ceros-event',
+
+            eventCategory = scriptTag.getAttribute("data-event-category") || 'ceros event',
+            viewEventAction = scriptTag.getAttribute("data-view-event-action") || 'ceros view',
+            clickEventAction = scriptTag.getAttribute("data-click-event-action") || 'ceros click',
+            hoverEventAction = scriptTag.getAttribute("data-hover-event-action") || 'ceros hover',
+
+            trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
+            dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
+
             debug = scriptTag.getAttribute("data-debug") || constants.NO,
             hoverTag = scriptTag.getAttribute("data-hover-tag") || constants.TAG_MOUSE_HOVER,
             clickTag = scriptTag.getAttribute("data-click-tag") || constants.TAG_MOUSE_CLICK,
             recordPageViews = scriptTag.getAttribute("data-record-page-views") || constants.NO;
+            
 
         var consoleHelper = new Logger(debug === constants.YES),
             componentsWithHoverEvents = [];
@@ -46,7 +56,14 @@
             trackingId: trackingId,
             backEnd: backEndMode,
             logger: consoleHelper,
-            eventCategory: eventCategory
+
+            trackerGlobal: trackerGlobal,
+            dataLayerGlobal: dataLayerGlobal,
+
+            eventCategory: eventCategory,
+            viewEventAction: viewEventAction,
+            clickEventAction: clickEventAction,
+            hoverEventAction: hoverEventAction
         });
 
         CerosSDK.findExperience()
@@ -106,9 +123,9 @@
 
                     // If the payload is empty, fallback to page number 
                     if (payload === '') {
-                      eventName = '/p/' + encodeURIComponent(page.pageNumber);
+                      eventName = 'page ' + page.pageNumber;
                     } else {
-                      eventName = '/' + encodeURIComponent(payload);
+                      eventName = payload;
                     }
 
                   consoleHelper.log("Ceros Extension fired page event for: ", eventName);

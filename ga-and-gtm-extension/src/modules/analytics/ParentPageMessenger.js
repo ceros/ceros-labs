@@ -18,15 +18,6 @@ define([
             this.messenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX, window.parent, false);
         },
 
-        /**
-         * Tell parent page to report page refrence as a fragment of its URL. 
-         *
-         * @param {String} pageReference
-         */
-        decoratePageReference: function(pageReference) {
-            return '#' + pageReference;
-        },
-
         sendEvent: function (eventName, eventLabel, eventCategory) {
 
             eventCategory = eventCategory || this.config.eventCategory || '';

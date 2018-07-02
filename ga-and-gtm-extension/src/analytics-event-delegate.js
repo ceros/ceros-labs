@@ -3,6 +3,10 @@
 
     var scriptTag = document.getElementById("ceros-event-delegate"),
         scriptSrc = scriptTag.getAttribute("src"),
+
+        trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
+        dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
+
         scriptDirectory = "./";
 
     if (scriptSrc) {
@@ -20,10 +24,10 @@
 
     require([
 
-        './modules/constants.js',
-        './modules/CrossFrameMessenger.js',
-        './modules/Analytics.js',
-        './modules/Logger.js'
+        './modules/constants',
+        './modules/CrossFrameMessenger',
+        './modules/Analytics',
+        './modules/Logger'
 
     ], function (constants, CrossFrameMessenger, Analytics, Logger) {
 
@@ -34,8 +38,10 @@
             consoleHelper = new Logger(debug === constants.YES);
 
         var analytics = Analytics.factory({
-            addTag: false,
-            backEnd: backEndMode
+            backEnd: backEndMode,
+
+            trackerGlobal: trackerGlobal,
+            dataLayerGlobal: dataLayerGlobal
         });
 
         incomingMessenger.receive(constants.TYPE_DELEGATED_EVENT, function (message) {

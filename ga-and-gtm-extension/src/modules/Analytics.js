@@ -23,12 +23,11 @@ define([
 
             var backend;
 
-            // if (config.backEnd && config.backEnd === constants.MODE_GOOGLE_TAG_MANAGER) {
+            if (config.backEnd && config.backEnd === constants.MODE_GOOGLE_TAG_MANAGER) {
 
-            //     backend = new GoogleTagManager(config);
+                backend = new GoogleTagManager(config);
 
-            // } else 
-            if (config.backEnd && config.backEnd === constants.MODE_PARENT_PAGE_DELEGATE) {
+            } else if (config.backEnd && config.backEnd === constants.MODE_PARENT_PAGE_DELEGATE) {
 
                 backend = new ParentPageMessenger(config);
 
