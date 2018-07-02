@@ -21,10 +21,7 @@ define([
             dataObject[this.config.eventActionParameter] = eventAction;
             dataObject[this.config.eventLabelParameter] = eventLabel;
 
-            console.log('dataObject for GTM: ', dataObject);
-
             var dataLayerGlobal = this.config.dataLayerGlobal;
-
 
             if (typeof window[dataLayerGlobal] !== 'undefined'){
 

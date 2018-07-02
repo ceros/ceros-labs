@@ -34,14 +34,6 @@
 
             trackingId = scriptTag.getAttribute("data-tracking-id") || null,
 
-
-            /*
-
-                cerosCategory: "ceros event", // Populates ec:
-        cerosAction: "ceros hover",  // Populates ea:
-    cerosLabel: "roll over in group" // Populates el:
-
-    */
             eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
             eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
             eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
