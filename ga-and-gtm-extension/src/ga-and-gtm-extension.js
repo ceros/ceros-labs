@@ -22,34 +22,39 @@
     });
 
     require([
+
         'CerosSDK',
         'modules/constants',
         'modules/Analytics',
         'modules/BrowserDom',
-        'modules/Logger'
+        'modules/Logger',
+        'modules/URIParser'
 
-    ], function (CerosSDK, constants, Analytics, BrowserDom, Logger) {
+    ], function (CerosSDK, constants, Analytics, BrowserDom, Logger, URIParser) {
 
-        var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS,
+        var scriptTagUri = new URIParser(scriptSrc),
+          scriptTagQuery = scriptTagUri.query();
 
-            trackingId = scriptTag.getAttribute("data-tracking-id") || null,
+        var backEndMode = scriptTag.getAttribute("data-mode") || scriptTagQuery.mode || constants.MODE_GOOGLE_ANALYTICS,
 
-            eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
-            eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
-            eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
+            trackingId = scriptTag.getAttribute("data-tracking-id") || scriptTagQuery.trackingId || null,
 
-            eventCategory = scriptTag.getAttribute("data-event-category") || 'ceros event',
-            viewEventAction = scriptTag.getAttribute("data-view-event-action") || 'ceros view',
-            clickEventAction = scriptTag.getAttribute("data-click-event-action") || 'ceros click',
-            hoverEventAction = scriptTag.getAttribute("data-hover-event-action") || 'ceros hover',
+            eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || scriptTagQuery.categoryParameter || 'cerosCategory',
+            eventActionParameter = scriptTag.getAttribute("data-action-parameter") || scriptTagQuery.actionParameter || 'cerosAction',
+            eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || scriptTagQuery.labelParameter || 'cerosLabel',
 
-            trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
-            dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
+            eventCategory = scriptTag.getAttribute("data-event-category") || scriptTagQuery.eventCategory || 'ceros event',
+            viewEventAction = scriptTag.getAttribute("data-view-event-action") || scriptTagQuery.viewEventAction || 'ceros view',
+            clickEventAction = scriptTag.getAttribute("data-click-event-action") || scriptTagQuery.clickEventAction || 'ceros click',
+            hoverEventAction = scriptTag.getAttribute("data-hover-event-action") || scriptTagQuery.hoverEventAction || 'ceros hover',
 
-            debug = scriptTag.getAttribute("data-debug") || constants.NO,
-            hoverTag = scriptTag.getAttribute("data-hover-tag") || constants.TAG_MOUSE_HOVER,
-            clickTag = scriptTag.getAttribute("data-click-tag") || constants.TAG_MOUSE_CLICK,
-            recordPageViews = scriptTag.getAttribute("data-record-page-views") || constants.NO;
+            trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || scriptTagQuery.gaTrackerName || 'ga',
+            dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || scriptTagQuery.dataLayerName || 'dataLayer',
+
+            debug = scriptTag.getAttribute("data-debug") || scriptTagQuery.debug || constants.NO,
+            hoverTag = scriptTag.getAttribute("data-hover-tag") || scriptTagQuery.hoverTag || constants.TAG_MOUSE_HOVER,
+            clickTag = scriptTag.getAttribute("data-click-tag") || scriptTagQuery.clickTag || constants.TAG_MOUSE_CLICK,
+            recordPageViews = scriptTag.getAttribute("data-record-page-views") || scriptTagQuery.recordPageViews || constants.NO;
             
 
         var consoleHelper = new Logger(debug === constants.YES),

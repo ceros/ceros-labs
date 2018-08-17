@@ -4,12 +4,12 @@
     var scriptTag = document.getElementById("ceros-event-delegate"),
         scriptSrc = scriptTag.getAttribute("src"),
 
-        trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
-        dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
+        // trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
+        // dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
 
-        eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
-        eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
-        eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
+        // eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
+        // eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
+        // eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
 
         scriptDirectory = "./";
 
@@ -31,12 +31,24 @@
         './modules/constants',
         './modules/CrossFrameMessenger',
         './modules/Analytics',
-        './modules/Logger'
+        './modules/Logger',
+        './modules/URIParser'
 
-    ], function (constants, CrossFrameMessenger, Analytics, Logger) {
+    ], function (constants, CrossFrameMessenger, Analytics, Logger, URIParser) {
 
-        var backEndMode = scriptTag.getAttribute("data-mode") || constants.MODE_GOOGLE_ANALYTICS,
-            debug = scriptTag.getAttribute("data-debug") || constants.NO;
+        var scriptTagUri = new URIParser(scriptSrc),
+          scriptTagQuery = scriptTagUri.query();
+
+        var backEndMode = scriptTag.getAttribute("data-mode") || scriptTagQuery.mode || constants.MODE_GOOGLE_ANALYTICS,
+            debug = scriptTag.getAttribute("data-debug") || scriptTagQuery.debug || constants.NO,
+
+            trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || scriptTagQuery.gaTrackerName || 'ga',
+            dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || scriptTagQuery.dataLayerName || 'dataLayer',
+
+            eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || scriptTagQuery.categoryParameter || 'cerosCategory',
+            eventActionParameter = scriptTag.getAttribute("data-action-parameter") || scriptTagQuery.actionParameter || 'cerosAction',
+            eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || scriptTagQuery.labelParameter || 'cerosLabel';
+
 
         var incomingMessenger = new CrossFrameMessenger(constants.NAMESPACE_PREFIX),
             consoleHelper = new Logger(debug === constants.YES);
