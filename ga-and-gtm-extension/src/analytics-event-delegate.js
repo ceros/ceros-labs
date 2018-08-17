@@ -4,13 +4,6 @@
     var scriptTag = document.getElementById("ceros-event-delegate"),
         scriptSrc = scriptTag.getAttribute("src"),
 
-        // trackerGlobal = scriptTag.getAttribute("data-ga-tracker") || 'ga',
-        // dataLayerGlobal = scriptTag.getAttribute("data-data-layer") || 'dataLayer',
-
-        // eventCategoryParameter = scriptTag.getAttribute("data-category-parameter") || 'cerosCategory',
-        // eventActionParameter = scriptTag.getAttribute("data-action-parameter") || 'cerosAction',
-        // eventLabelParameter = scriptTag.getAttribute("data-label-parameter") || 'cerosLabel',
-
         scriptDirectory = "./";
 
     if (scriptSrc) {
